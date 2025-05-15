@@ -1,0 +1,37 @@
+# Node.js (frontend e backend)
+node_modules/
+package-lock.json
+
+# Build (frontend)
+frontend/dist/
+frontend/dist-ssr/
+
+# Build (backend, futuro)
+backend/build/
+backend/dist/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Variáveis de ambiente
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
