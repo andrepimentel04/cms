@@ -33,6 +33,29 @@ const UserList = ({ users, onDelete }: UserListProps) => {
     },
   ];
 
+  const filters = [
+    {
+      label: 'Nome',
+      key: 'name',
+      type: 'text',
+    },
+    {
+      label: 'Email',
+      key: 'email',
+      type: 'text',
+    },
+    {
+      label: 'Papel',
+      key: 'role',
+      type: 'select',
+      options: [
+        { value: 'admin', label: 'Admin' },
+        { value: 'editor', label: 'Editor' },
+        { value: 'viewer', label: 'Viewer' },
+      ],
+    },
+  ];
+
   return (
     <GenericList
       items={users}
@@ -43,6 +66,7 @@ const UserList = ({ users, onDelete }: UserListProps) => {
       emptyMessage="Nenhum usuário encontrado."
       columns={columns}
       actions={actions}
+      filters={filters}
     />
   );
 };

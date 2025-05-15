@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import ListHeader from './ListHeader';
 import useConfirmDelete from '../hooks/useConfirmDelete';
+import { useState, useMemo } from 'react';
 
 type ActionConfig<T> = {
   label: string;
@@ -16,6 +17,13 @@ type ColumnConfig<T> = {
   linkTo?: (item: T) => string;
 };
 
+type FilterConfig<T> = {
+  label: string;
+  key: keyof T;
+  type: 'text' | 'select';
+  options?: { value: string; label: string }[]; // Para select
+};
+
 type GenericListProps<T> = {
   items: T[];
   onDelete: (id: number) => void;
@@ -25,6 +33,7 @@ type GenericListProps<T> = {
   emptyMessage: string;
   columns: ColumnConfig<T>[];
   actions?: ActionConfig<T>[];
+  filters?: FilterConfig<T>[];
 };
 
 const GenericList = <T extends { id: number }>({
@@ -36,11 +45,41 @@ const GenericList = <T extends { id: number }>({
   emptyMessage,
   columns,
   actions = [],
+  filters = [],
 }: GenericListProps<T>) => {
   const { confirmDelete } = useConfirmDelete<number>({
     onDelete,
     message: `Tem certeza que deseja eliminar este item?`,
   });
+
+  // Estado para os valores dos filtros
+  const [filterValues, setFilterValues] = useState<Record<string, string>>({});
+
+  // Atualiza o valor de um filtro
+  const handleFilterChange = (key: string, value: string) => {
+    setFilterValues((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+  };
+
+  // Filtra os itens com base nos valores dos filtros
+  const filteredItems = useMemo(() => {
+    return items.filter((item) => {
+      return filters.every((filter) => {
+        const value = filterValues[filter.key as string]?.toLowerCase() || '';
+        if (!value) return true; // Sem filtro, inclui o item
+
+        const itemValue = String(item[filter.key]).toLowerCase();
+        if (filter.type === 'text') {
+          return itemValue.includes(value);
+        } else if (filter.type === 'select') {
+          return itemValue === value;
+        }
+        return true;
+      });
+    });
+  }, [items, filterValues, filters]);
 
   return (
     <div>
@@ -49,7 +88,36 @@ const GenericList = <T extends { id: number }>({
         createPath={`${basePath}/new`}
         createLabel={createLabel}
       />
-      {items.length === 0 ? (
+      {filters.length > 0 && (
+        <div className="filter-container">
+          {filters.map((filter) => (
+            <div key={String(filter.key)} className="filter-item">
+              <label>{filter.label}</label>
+              {filter.type === 'text' ? (
+                <input
+                  type="text"
+                  value={filterValues[filter.key as string] || ''}
+                  onChange={(e) => handleFilterChange(filter.key as string, e.target.value)}
+                  placeholder={`Filtrar por ${filter.label}`}
+                />
+              ) : (
+                <select
+                  value={filterValues[filter.key as string] || ''}
+                  onChange={(e) => handleFilterChange(filter.key as string, e.target.value)}
+                >
+                  <option value="">Todos</option>
+                  {filter.options?.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+      {filteredItems.length === 0 ? (
         <p>{emptyMessage}</p>
       ) : (
         <table className="generic-table">
@@ -62,7 +130,7 @@ const GenericList = <T extends { id: number }>({
             </tr>
           </thead>
           <tbody>
-            {items.map((item) => (
+            {filteredItems.map((item) => (
               <tr key={item.id}>
                 {columns.map((column, index) => (
                   <td key={index}>
