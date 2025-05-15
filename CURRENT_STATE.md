@@ -1,44 +1,54 @@
 Situação Atual do Projeto CMS Admin v2
 Data: 15 de maio de 2025
 Visão Geral
-O CMS Admin v2 é um painel de administração para gerenciar entidades de um sistema de gerenciamento de conteúdo (CMS), atualmente focado em usuários, com planos para incluir páginas e posts. O projeto é um monorepo com um frontend construído em React, TypeScript, e React Router, usando dados dummy. A arquitetura enfatiza componentes genéricos e reutilizáveis, prontos para expansão e conexão com um backend.
+O CMS Admin v2 é um painel de administração para gerir entidades de um sistema de gestão de conteúdos (CMS), atualmente focado em utilizadores, com planos para incluir páginas e publicações. O projeto é um monorepo com um frontend construído em React, TypeScript, e React Router, usando dados dummy. A arquitetura enfatiza componentes genéricos e reutilizáveis, prontos para expansão e ligação a um backend.
 Funcionalidades Implementadas
-Usuários
+Utilizadores
 
 Listagem:
 Tabela gerada pelo componente GenericList, exibindo:
-Colunas: Nome (com link para futura página /users/show/:id), Email, Papel, Criado em.
-Ações: Editar (link para /users/edit/:id), Eliminar (botão com confirmação via window.confirm).
+Colunas: Nome (com ligação para /users/show/:id), Email, Papel, Criado em.
+Ações: Editar (ligação para /users/edit/:id), Eliminar (botão com confirmação via window.confirm).
 
 
 Filtros:
-Nome: Busca por texto (case-insensitive, parcial).
-Email: Busca por texto (case-insensitive, parcial).
-Papel: Seleção de opções (admin, editor, viewer, ou "Todos").
+Nome: Pesquisa por texto (insensível a maiúsculas, parcial).
+Email: Pesquisa por texto (insensível a maiúsculas, parcial).
+Papel: Seleção de opções (administrador, editor, visualizador, ou "Todos").
 
 
-Mensagem "Nenhum usuário encontrado" para lista vazia.
+Mensagem "Nenhum utilizador encontrado" para lista vazia.
 Acessível em /users.
+
+
+Detalhes:
+Página /users/show/:id exibe:
+Nome, Email, Papel, Criado em.
+Botão "Editar" (ligação para /users/edit/:id).
+Botão "Voltar" (ligação para /users).
+
+
+Mensagem "Utilizador não encontrado" para IDs inválidos.
 
 
 Criação e Edição:
 Formulário gerado pelo componente GenericForm, com campos:
 Nome (texto)
 Email (texto)
-Papel (select: admin, editor, viewer)
+Papel (select: administrador, editor, visualizador)
 
 
 Validação de campos (obrigatórios, formato de email).
 Acessível em /users/new (criar) e /users/edit/:id (editar).
 
 
-Exclusão:
+Eliminação:
 Ação "Eliminar" na tabela, com confirmação via useConfirmDelete (usa window.confirm).
 
 
 Navegação:
-Links no Nome levam a /users/show/:id (não implementado, retorna 404).
-Botão "Criar Novo Usuário" no cabeçalho (via ListHeader).
+Ligações no Nome levam a /users/show/:id.
+Botão "Criar Novo Utilizador" no cabeçalho (via ListHeader).
 
 
 
@@ -46,7 +56,7 @@ Componentes Genéricos
 
 GenericList:
 Tabela reutilizável para listar qualquer entidade com id.
-Suporta colunas configuráveis (label, render, linkTo para links).
+Suporta colunas configuráveis (label, render, linkTo para ligações).
 Suporta ações personalizadas (label, type: button/link, onClick/to, className).
 Suporta filtros configuráveis (label, key, type: text/select, options para select).
 Exibe mensagem personalizável para lista vazia.
@@ -55,7 +65,7 @@ Exibe mensagem personalizável para lista vazia.
 GenericForm:
 Formulário reutilizável para criar/editar entidades.
 Suporta campos configuráveis com validação.
-Usado para usuários, pronto para páginas e posts.
+Usado para utilizadores, pronto para páginas e publicações.
 
 
 ListHeader:
@@ -63,7 +73,7 @@ Cabeçalho com título e botão "Criar" (caminho configurável).
 
 
 useConfirmDelete:
-Hook genérico para confirmação de exclusão, com mensagem personalizável.
+Hook genérico para confirmação de eliminação, com mensagem personalizável.
 
 
 
@@ -82,7 +92,8 @@ cms-admin-v2/
 │   │   ├── hooks/
 │   │   │   └── useConfirmDelete.ts
 │   │   ├── pages/
-│   │   │   └── UserForm.tsx
+│   │   │   ├── UserForm.tsx
+│   │   │   └── UserShow.tsx
 │   │   ├── App.tsx
 │   │   └── styles.css
 │   ├── package.json
@@ -108,7 +119,7 @@ npm run build: Gera build de produção.
 npm run preview: Visualiza build.
 
 
-Estilização: CSS puro (frontend/src/styles.css) com classes para tabela (generic-table), links (table-link), ações (edit-button, delete-button), e filtros (filter-container, filter-item).
+Estilização: CSS puro (frontend/src/styles.css) com classes para tabela (generic-table), ligações (table-link), ações (edit-button, delete-button), filtros (filter-container, filter-item), e detalhes (user-details, detail-item).
 
 
 Dados:
@@ -137,9 +148,8 @@ Pronto para repositório remoto (ex.: GitHub).
 
 Limitações Atuais
 
-Página /users/show/:id não implementada (links no Nome retornam 404).
-Confirmação de exclusão usa window.confirm (não é estilizado).
-Apenas usuários implementados; páginas e posts pendentes.
+Confirmação de eliminação usa window.confirm (não estilizado).
+Apenas utilizadores implementados; páginas e publicações pendentes.
 Estilização em CSS puro (sem Tailwind CSS).
 Dados dummy, sem backend.
 
@@ -155,7 +165,7 @@ Entre no frontend:cd frontend
 Instale dependências:npm install
 
 
-Rode:npm run dev
+Execute:npm run dev
 
 
 Acesse http://localhost:5173/users.

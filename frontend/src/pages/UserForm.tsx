@@ -11,7 +11,7 @@ const UserForm = ({ users, onSave }: UserFormProps) => {
   const { id } = useParams<{ id: string }>();
   const isEditing = !!id;
 
-  // Buscar o usuário pelo ID, ou usar um usuário padrão para criação
+  // Buscar o utilizador pelo ID, ou usar um utilizador padrão para criação
   const initialUser = isEditing
     ? users?.find((user) => user.id === Number(id)) || {
         id: 0,
@@ -29,16 +29,16 @@ const UserForm = ({ users, onSave }: UserFormProps) => {
       };
 
   const fields = [
-    { name: 'name', label: 'Nome:', type: 'text', required: true },
-    { name: 'email', label: 'Email:', type: 'email', required: true },
+    { name: 'name', label: 'Nome', type: 'text', required: true },
+    { name: 'email', label: 'Email', type: 'email', required: true },
     {
       name: 'role',
-      label: 'Papel:',
+      label: 'Papel',
       type: 'select',
       options: [
-        { value: 'admin', label: 'Admin' },
+        { value: 'admin', label: 'Administrador' },
         { value: 'editor', label: 'Editor' },
-        { value: 'viewer', label: 'Viewer' },
+        { value: 'viewer', label: 'Visualizador' },
       ],
       required: true,
     },
@@ -69,7 +69,7 @@ const UserForm = ({ users, onSave }: UserFormProps) => {
       errors.email = 'Este email já está em uso';
     }
 
-    // Validação do role
+    // Validação do papel
     if (!['admin', 'editor', 'viewer'].includes(data.role)) {
       errors.role = 'Selecione um papel válido';
     }

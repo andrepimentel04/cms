@@ -21,7 +21,7 @@ type FilterConfig<T> = {
   label: string;
   key: keyof T;
   type: 'text' | 'select';
-  options?: { value: string; label: string }[]; // Para select
+  options?: { value: string; label: string }[];
 };
 
 type GenericListProps<T> = {
@@ -49,13 +49,11 @@ const GenericList = <T extends { id: number }>({
 }: GenericListProps<T>) => {
   const { confirmDelete } = useConfirmDelete<number>({
     onDelete,
-    message: `Tem certeza que deseja eliminar este item?`,
+    message: `Tem a certeza de que deseja eliminar este item?`,
   });
 
-  // Estado para os valores dos filtros
   const [filterValues, setFilterValues] = useState<Record<string, string>>({});
 
-  // Atualiza o valor de um filtro
   const handleFilterChange = (key: string, value: string) => {
     setFilterValues((prev) => ({
       ...prev,
@@ -63,12 +61,11 @@ const GenericList = <T extends { id: number }>({
     }));
   };
 
-  // Filtra os itens com base nos valores dos filtros
   const filteredItems = useMemo(() => {
     return items.filter((item) => {
       return filters.every((filter) => {
         const value = filterValues[filter.key as string]?.toLowerCase() || '';
-        if (!value) return true; // Sem filtro, inclui o item
+        if (!value) return true;
 
         const itemValue = String(item[filter.key]).toLowerCase();
         if (filter.type === 'text') {

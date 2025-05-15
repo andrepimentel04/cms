@@ -200,3 +200,26 @@ button:disabled {
   border: 1px solid #ddd;
   border-radius: 4px;
 }
+
+.user-details {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.detail-item {
+  margin-bottom: 15px;
+}
+
+.detail-item strong {
+  display: inline-block;
+  width: 100px;
+  font-weight: bold;
+}
+
+.detail-actions {
+  margin-top: 20px;
+}

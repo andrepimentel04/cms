@@ -5,7 +5,7 @@ type ConfirmDeleteProps<T> = {
   message?: string;
 };
 
-const useConfirmDelete = <T>({ onDelete, message = 'Tem certeza que deseja eliminar este item?' }: ConfirmDeleteProps<T>) => {
+const useConfirmDelete = <T>({ onDelete, message = 'Tem a certeza de que deseja eliminar este item?' }: ConfirmDeleteProps<T>) => {
   const [pendingDeleteId, setPendingDeleteId] = useState<T | null>(null);
 
   const confirmDelete = (id: T) => {

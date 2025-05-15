@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { useState } from 'react';
 import Users from './pages/Users';
 import UserForm from './pages/UserForm';
+import UserShow from './pages/UserShow';
 import Pages from './pages/Pages';
 import Posts from './pages/Posts';
 import { User, users as initialUsers } from './data/dummyData';
@@ -42,6 +43,7 @@ function App() {
           <Route path="/users" element={<Users users={users} onDelete={deleteUser} />} />
           <Route path="/users/new" element={<UserForm onSave={addUser} />} />
           <Route path="/users/edit/:id" element={<UserForm users={users} onSave={updateUser} />} />
+          <Route path="/users/show/:id" element={<UserShow />} />
           <Route path="/pages" element={<Pages />} />
           <Route path="/posts" element={<Posts />} />
           <Route path="/" element={<h1>Bem-vindo ao Simple CMS</h1>} />
